@@ -1,4 +1,6 @@
-# Grupo 4
+# Gestor de avances de memorias — proyecto INF236
+
+Plataforma web académica para registrar entregas de avances, revisar su historial y apoyar la evaluación entre estudiantes y profesores guía. El repositorio agrupa APIs, interfaz web, esquema de datos y configuración Docker.
 
 Este es el repositorio del grupo 4, cuyos integrantes son:
 
@@ -47,14 +49,23 @@ Todos los comandos se ejecutan en una terminal (PowerShell, CMD o la terminal de
 ### 1. Clonar el repositorio
 
 ```
-git clone https://gitlab.inf.utfsm.cl/inf236-cc-2026-2/grupo04-2026-proyinf.git
-cd grupo04-2026-proyinf
+git clone https://github.com/garkayn/Proyecto_INF236.git
+cd Proyecto_INF236
 ```
 
 ### 2. Levantar MySQL
 
 Abrir Docker Desktop y esperar a que indique que está en ejecución. Si no está abierto, los comandos de docker fallan con el error failed to connect to the docker API.
 Luego, desde la carpeta principal del repositorio:
+
+Copiar los ejemplos de configuración y reemplazar la contraseña por una local. En PowerShell:
+
+```
+Copy-Item API_TRAMITACION/.env.example API_TRAMITACION/.env
+Copy-Item API_VALIDACIONES/.env.example API_VALIDACIONES/.env
+```
+
+En macOS o Linux, usa `cp` con esas mismas rutas.
 
 ```
 docker compose up --build -d
