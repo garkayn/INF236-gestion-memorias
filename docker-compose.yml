@@ -1,24 +1,39 @@
-version: "3.4"
-
 services:
   mysql:
-    image: mysql
-    ports: 
+    image: mysql:8.4
+    ports:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: password
     volumes:
-      - ./API_EJEMPLO/init:/docker-entrypoint-initdb.d
+      - ./sql:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-ppassword"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
 
-# Contenedor para la API de ejemplo
-  api_ejemplo:
-    build: ./API_EJEMPLO
-    image: api_ejemplo
-    volumes:
-      - ./API_EJEMPLO/:/usr/app
-      - /usr/app/node_modules
-    restart: on-failure
+  api_tramitacion:
+    build: ./API_TRAMITACION
+    image: api_tramitacion
     ports:
-      - "8082:8082"
+      - "8080:8080"
+    environment:
+      DB_HOST: mysql
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+    restart: on-failure
+
+  api_validaciones:
+    build: ./API_VALIDACIONES
+    image: api_validaciones
+    ports:
+      - "8081:8081"
+    environment:
+      DB_HOST: mysql
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: on-failure

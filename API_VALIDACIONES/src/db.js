@@ -7,7 +7,8 @@ const database = mysql.createConnection({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     port: process.env.DB_PORT,
-    host:process.env.DB_HOST
+    host: process.env.DB_HOST,
+    charset: 'UTF8MB4_UNICODE_CI'
 });
 
 module.exports = database;
